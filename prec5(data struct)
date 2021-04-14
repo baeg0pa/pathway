@@ -1,0 +1,48 @@
+#include <stdio.h>
+
+typedef int element;
+
+//스택 구조체
+typedef struct {
+	element data[100];
+	int top;
+}StackType;
+
+//초기화
+void init_stack(StackType* s) {
+	s->top = -1;
+}
+
+//에러 출력 함수
+void error(char* message) {
+	fprintf(stderr, "%d\n", message);
+	exit(1);
+}
+
+//포화상태(스택)
+int is_full(StackType* s) {
+	return s->top == 99;
+}
+
+//삽입 함수(스택)
+void push(StackType* s) {
+	if (is_full)
+		error("포화상태");
+}
+
+
+
+// 큐 구조체
+typedef struct {
+	StackType s1, s2;
+	int front, rear;
+}QueueType;
+
+// 초기화
+void init_queue(QueueType* q) {
+	q->front = q->rear = -1;
+}
+
+int main() {
+
+}
