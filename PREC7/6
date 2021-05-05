@@ -1,0 +1,56 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+typedef int element;
+typedef struct DListNode {
+	element data;
+	struct DListNode *llink;
+	struct DListNode *rlink;
+}DListNode;
+
+// 이중 연결 리스트를 초기화
+void init(DListNode *phead) {
+	phead->llink = phead;
+	phead->rlink = phead;
+}
+
+// 이중 연결 리스트의 노드를 역순으로 출력
+void print_dlist_rev(DListNode *phead) {
+	DListNode *p, *q;
+	for (p=phead->rlink;p!=phead;p=p->rlink) {
+		for(q=phead->llink;q!=phead;q=q->llink) {
+			if(q == p)
+				printf("<-| |%d| |-> ", p->data);
+		}
+	}
+	printf("\n");
+}
+
+
+void dinsert(DListNode *before, element data) {
+	DListNode *newnode = (DListNode *)malloc(sizeof(DListNode));
+	newnode->data = data;
+	newnode->llink = before;
+	newnode->rlink = before->rlink;
+	before->rlink->llink = newnode;
+	before->rlink = newnode;
+}
+
+int main() {
+	int n,data;
+	DListNode *head = (DListNode *)malloc(sizeof(DListNode));
+	init(head);
+
+	printf("데이터의 개수를 입력하시오 : ");
+	scanf("%d", &n);
+	puts("");
+
+	for(int i=0;i<n;i++) {
+		printf("노드 #%d의 데이터를 입력하시오: ", i+1);
+		scanf("%d", &data);
+		dinsert(head, data);
+	}
+
+	printf("데이터를 역순으로 출력: ");
+	print_dlist_rev(head);
+}
