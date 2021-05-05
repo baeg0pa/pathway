@@ -1,0 +1,48 @@
+#include <stdio.h>
+#include <stdlib.h>
+typedef struct ListNode {
+	int data;
+	struct ListNode *link;
+}ListNode;
+
+ListNode* insert_first(ListNode* head, int value) {
+	ListNode *p = (ListNode *)malloc(sizeof(ListNode));
+	p->data = value;
+	p->link = head;
+	head = p;
+	return head;
+}
+
+int find_max(ListNode* head) {
+	int max = head->data;
+	for(ListNode *p = head; p!=NULL; p=p->link)
+		(max<p->data) ? max = p->data:max;
+	return max;
+}
+
+int find_min(ListNode* head) {
+	int min = head->data;
+	for(ListNode *p = head; p!=NULL; p=p->link)
+		(min>p->data) ? min = p->data:min;
+	return min;
+}
+
+
+
+int main() {
+	int n, value;
+	printf("노드의 개수: ");
+	scanf("%d", &n);
+
+	ListNode *head = NULL;
+
+	for(int i=1;i<=n;i++) {
+		printf("노드 #%d 데이터 : ", i);
+		scanf("%d", &value);
+		head = insert_first(head, value);
+	}
+
+
+	printf("최대값: %d\n", find_max(head));
+	printf("최소값: %d\n", find_min(head));
+}
