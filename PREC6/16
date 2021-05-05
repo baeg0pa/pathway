@@ -1,0 +1,63 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+typedef struct ListNode {
+	int data;
+	struct ListNode *link;
+}ListNode;
+
+ListNode* insert_first(ListNode* head, int value) {
+	ListNode *p = (ListNode *)malloc(sizeof(ListNode));
+	p->data = value;
+	p->link = head;
+	head = p;
+	return head;
+}
+
+ListNode* delete_f(ListNode* head) {
+	int i=1;
+	ListNode *removed=NULL, *pre = head;
+	ListNode *p = head;
+
+	while(p!=NULL) {
+		if(i%2) {
+			removed = p;
+			pre -> link = removed ->link;
+			p = p->link;
+			free(removed);
+		}
+		else {
+			pre = p;
+			p = p->link;
+		}
+		i++;
+	}
+	return head;
+}
+
+void print_list(ListNode *head) {
+	for(ListNode *p = head; p!=NULL; p=p->link)
+		printf("%d->",p->data);
+	printf("NULL \n");
+}
+
+
+int main() {
+	int n, value;
+	printf("노드의 개수: ");
+	scanf("%d", &n);
+
+	ListNode *head = NULL;
+
+	for(int i=1;i<=n;i++) {
+		printf("노드 #%d 데이터 : ", i);
+		scanf("%d", &value);
+		head = insert_first(head, value);
+	}
+	print_list(head);
+
+	head = delete_f(head);
+	print_list(head);
+
+
+}
