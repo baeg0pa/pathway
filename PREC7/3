@@ -1,0 +1,76 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+typedef int element;
+typedef struct ListNode {
+	element data;
+	struct ListNode *link;
+}ListNode;
+
+//리스트의 항목 출력
+void print_list(ListNode *head)
+{
+	ListNode *p;
+	if(head == NULL)	return;
+	p = head->link;
+	do {
+		printf("%d->", p->data);
+		p = p->link;
+	}while(p!=head);
+	printf("%d->",p->data);
+}
+
+ListNode* insert_first(ListNode *head, element data) {
+	ListNode *node = (ListNode *)malloc(sizeof(ListNode));
+	node->data = data;
+	if(head == NULL) {
+		head = node;
+		node->link = head;
+	}
+	else {
+		node->link = head->link;
+		head->link = node;
+	}
+	return head;
+}
+
+ListNode* insert_last(ListNode *head, element data) {
+	ListNode *node = (ListNode *)malloc(sizeof(ListNode));
+	node->data = data;
+	if(head== NULL) {
+		head= node;
+		node->link = head;
+	}
+	else {
+		node->link = head->link;
+		head->link = node;
+		head = node;
+	}
+	return head;
+}
+
+// 원형 연결 리스트 L에서 data를 가지고 있는 노드를 찾아서 반환한다.
+ListNode* search(ListNode *L, element data) {
+	ListNode *p = L->link;
+	do{
+		if(p->data == data)
+			return p;
+		else
+			p=p->link;
+	}while(p!=L);
+	return NULL;
+}
+
+int main() {
+	ListNode *head = NULL;
+
+	head = insert_last(head, 20);
+	head = insert_last(head, 30);
+	head = insert_last(head, 40);
+	head = insert_first(head, 10);
+	print_list(head);
+
+	printf("데이터 값이 20인 노드: %p", search(head, 20));
+	puts("");
+	printf("데이터 값이 20인 노드의 데이터값 출력: %d", search(head, 20)->data);
+}
