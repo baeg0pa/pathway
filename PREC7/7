@@ -1,0 +1,58 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+typedef int element;
+typedef struct DListNode {
+	element data;
+	struct DListNode *llink;
+	struct DListNode *rlink;
+}DListNode;
+
+// 이중 연결 리스트를 초기화
+void init(DListNode *phead) {
+	phead->llink = phead;
+	phead->rlink = phead;
+}
+
+// 이중 연결 리스트의 노드를 출력
+void print_dlist(DListNode *phead) {
+	DListNode *p;
+	for (p=phead->rlink;p!=phead;p=p->rlink) {
+		printf("<-| |%d| |-> ", p->data);
+	}
+	printf("\n");
+}
+
+void dinsert(DListNode *before, element data) {
+	DListNode *newnode = (DListNode *)malloc(sizeof(DListNode));
+	newnode->data = data;
+	newnode->llink = before;
+	newnode->rlink = before->rlink;
+	before->rlink->llink = newnode;
+	before->rlink = newnode;
+}
+
+// 이중 연결 리스트 L에서 data를 가지고 있는 노드를 찾아서 반환한다.
+DListNode* search(DListNode *L, element data) {
+	DListNode *p=L->rlink;
+	while(p!=L) {
+		if(p->data == data)
+			return p;
+		p = p->rlink;
+	}
+	return NULL;
+}
+
+int main() {
+	DListNode *head = (DListNode *)malloc(sizeof(DListNode));
+	init(head);
+	printf("추가 단계\n");
+	for (int i=0;i<5;i++) {
+		// 헤드 노드의 오른쪽에 삽입
+		dinsert(head, i);
+		print_dlist(head);
+	}
+	printf("데이터 값이 4인 노드 : %p\n", search(head, 4));
+	printf("위 노드의 데이터 값 : %d\n", search(head, 4)->data);
+	return 0;
+}
