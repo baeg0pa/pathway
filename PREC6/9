@@ -1,0 +1,59 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+typedef struct ListNode{
+	int data;
+	struct ListNode* link;
+}ListNode;
+
+void error(char* message) {
+	fprintf(stderr, "%s\n", message);
+	exit(1);
+}
+
+ListNode* insert_first(ListNode* head, int value) {
+	ListNode *p;
+	p = (ListNode *)malloc(sizeof(ListNode));
+	p->data = value;
+	p->link = head;
+	head = p;
+	return head;
+}
+
+void print_list(ListNode *head) {
+	for(ListNode *p = head; p != NULL; p=p->link)
+		printf("%d->", p->data);
+	printf("NULL\n");
+}
+
+ListNode* reverse(ListNode *head) {
+	ListNode *p, *r, *q;
+	p = head;
+	q = NULL;
+	while(p!=NULL) {
+		r = q;
+		q = p;
+		p = p->link;
+		q->link = r;
+	}
+	return q;
+}
+
+int main() {
+	int n, value;
+	ListNode *head1 = NULL, *head2 = NULL;
+	printf("노드의 개수 : ");
+	scanf("%d", &n);
+
+	for(int i=0;i<n;i++) {
+		printf("노드 #%d 데이터 : ", i+1);
+		scanf("%d", &value);
+		head1 = insert_first(head1, value);
+	}
+	print_list(head1);
+
+
+	head2 = reverse(head1);
+	printf("생성된 연결 리스트: ");
+	print_list(head2);
+}
